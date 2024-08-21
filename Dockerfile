@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package list and install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     python3.11 \
     python3.11-venv \
     python3.11-dev \
@@ -23,9 +23,9 @@ RUN apt-get update && apt-get install -y \
 # Add Microsoft's APT repository for MSSQL ODBC driver
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get update \
-    && ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
-    && apt-get clean
+    && apt update \
+    && ACCEPT_EULA=Y apt install -y msodbcsql18 \
+    && apt clean
 
 # Create a directory for the Django app
 WORKDIR /app
