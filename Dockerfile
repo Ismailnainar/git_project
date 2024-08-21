@@ -2,13 +2,15 @@
 FROM ubuntu:22.04
 
 # Set environment variables
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package list and install dependencies
 RUN apt-get update && apt-get install -y \
-    python3 \
+    python3.11 \
+    python3.11-venv \
+    python3.11-dev \
     python3-pip \
-    python3-dev \
     build-essential \
     unixodbc \
     unixodbc-dev \
@@ -32,8 +34,8 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install Python dependencies
-RUN pip3 install --upgrade pip \
-    && pip3 install -r requirements.txt
+RUN python3.11 -m pip install --upgrade pip \
+    && python3.11 -m pip install -r requirements.txt
 
 # Copy the Django project files to the working directory
 COPY . /app/
@@ -42,4 +44,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Set the default command to run Django's development server
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3.11", "manage.py", "runserver", "0.0.0.0:8000"]
